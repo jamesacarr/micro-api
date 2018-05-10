@@ -3,55 +3,94 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:latest
+
 jobs:
-    build:
-        docker:
-            - image: circleci/node:latest
+  lockfile:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "yarn.lock" }}
+            # Fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run:
+          name: Preparing greenkeeper-lockfile
+          command: |
+            echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
+            source $BASH_ENV
+            yarn global add greenkeeper-lockfile@1
+      - run:
+          name: Installing Dependencies
+          command: yarn install
+      - run:
+          name: Updating greenkeeper lockfile
+          command: greenkeeper-lockfile-update
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "yarn.lock" }}
+      - run:
+          name: Uploading greenkeeper lockfile
+          command: greenkeeper-lockfile-upload
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
-        working_directory: ~/repo
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Running Unit Tests
+          command: yarn test:ci
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/jest/test-results.xml"
+      - store_test_results:
+          path: reports
+      - run:
+          name: Running Metrics
+          command: yarn metrics:ci
 
-        steps:
-            - checkout
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticating with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publishing package
+          command: npm publish
 
-            - restore_cache:
-                keys:
-                    - dependencies-{{ checksum "yarn.lock" }}
-                    # Fallback to using the latest cache if no exact match is found
-                    - dependencies-
+workflows:
+  version: 2
+  test-deploy:
+    jobs:
+      - lockfile:
+          filters:
+            tags:
+              only: /.*/
 
-            - run:
-                name: Preparing greenkeeper-lockfile
-                command: |
-                    echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
-                    source $BASH_ENV
-                    yarn global add greenkeeper-lockfile@1
+      - test:
+          requires:
+            - lockfile
+          filters:
+            tags:
+              only: /.*/
 
-            - run:
-                name: Installing Dependencies
-                command: yarn install
-
-            - run:
-                name: Updating greenkeeper lockfile
-                command: greenkeeper-lockfile-update
-
-            - save_cache:
-                paths:
-                    - node_modules
-                key: dependencies-{{ checksum "yarn.lock" }}
-        
-            - run:
-                name: Running Unit Tests
-                command: yarn test:ci
-                environment:
-                    JEST_JUNIT_OUTPUT: "reports/jest/test-results.xml"
-      
-            - store_test_results:
-                path: reports
-
-            - run:
-                name: Running Metrics
-                command: yarn metrics:ci
-
-            - run:
-                name: Uploading greenkeeper lockfile
-                command: greenkeeper-lockfile-upload
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /\d+\.\d+\.\d+(-\w+\.\d+)?/
+            branches:
+              ignore: /.*/
