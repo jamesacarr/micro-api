@@ -1,0 +1,48 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # Specify the version you desire here
+      - image: circleci/node:latest
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - dependencies-{{ checksum "yarn.lock" }}
+          # Fallback to using the latest cache if no exact match is found
+          - dependencies-
+
+      - run:
+          name: Installing Dependencies
+          command: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-{{ checksum "yarn.lock" }}
+        
+      - run:
+          name: Running Unit Tests
+          command: yarn test:ci
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/jest/test-results.xml"
+      
+      - store_test_results:
+          path: reports
+
+      - run:
+          name: Running Metrics
+          command: yarn metrics:ci
