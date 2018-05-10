@@ -10,7 +10,7 @@ defaults: &defaults
     - image: circleci/node:latest
 
 jobs:
-  lockfile:
+  build:
     <<: *defaults
     steps:
       - checkout
@@ -74,14 +74,14 @@ workflows:
   version: 2
   test-deploy:
     jobs:
-      - lockfile:
+      - build:
           filters:
             tags:
               only: /.*/
 
       - test:
           requires:
-            - lockfile
+            - build
           filters:
             tags:
               only: /.*/
