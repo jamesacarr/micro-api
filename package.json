@@ -1,7 +1,7 @@
 {
   "name": "micro-api-router",
   "description": "Micro middleware to standardise API microservices",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "author": "James Carr <james@jacarr.me>",
   "repository": "https://github.com/jamesacarr/micro-api-router",
