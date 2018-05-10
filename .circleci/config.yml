@@ -4,45 +4,54 @@
 #
 version: 2
 jobs:
-  build:
-    docker:
-      # Specify the version you desire here
-      - image: circleci/node:latest
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+    build:
+        docker:
+            - image: circleci/node:latest
 
-    working_directory: ~/repo
+        working_directory: ~/repo
 
-    steps:
-      - checkout
+        steps:
+            - checkout
 
-      - restore_cache:
-          keys:
-          - dependencies-{{ checksum "yarn.lock" }}
-          # Fallback to using the latest cache if no exact match is found
-          - dependencies-
+            - restore_cache:
+                keys:
+                    - dependencies-{{ checksum "yarn.lock" }}
+                    # Fallback to using the latest cache if no exact match is found
+                    - dependencies-
 
-      - run:
-          name: Installing Dependencies
-          command: yarn install
+            - run:
+                name: Preparing greenkeeper-lockfile
+                command: |
+                    echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
+                    source $BASH_ENV
+                    yarn global add greenkeeper-lockfile@1
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: dependencies-{{ checksum "yarn.lock" }}
+            - run:
+                name: Installing Dependencies
+                command: yarn install
+
+            - run:
+                name: Updating greenkeeper lockfile
+                command: greenkeeper-lockfile-update
+
+            - save_cache:
+                paths:
+                    - node_modules
+                key: dependencies-{{ checksum "yarn.lock" }}
         
-      - run:
-          name: Running Unit Tests
-          command: yarn test:ci
-          environment:
-            JEST_JUNIT_OUTPUT: "reports/jest/test-results.xml"
+            - run:
+                name: Running Unit Tests
+                command: yarn test:ci
+                environment:
+                    JEST_JUNIT_OUTPUT: "reports/jest/test-results.xml"
       
-      - store_test_results:
-          path: reports
+            - store_test_results:
+                path: reports
 
-      - run:
-          name: Running Metrics
-          command: yarn metrics:ci
+            - run:
+                name: Running Metrics
+                command: yarn metrics:ci
+
+            - run:
+                name: Uploading greenkeeper lockfile
+                command: greenkeeper-lockfile-upload
