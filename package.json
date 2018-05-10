@@ -44,6 +44,14 @@
       "es6",
       "jest",
       "node"
+    ],
+    "overrides": [
+      {
+        "files": "**/*.spec.js",
+        "rules": {
+          "max-nested-callbacks": 0
+        }
+      }
     ]
   },
   "peerDependencies": {
