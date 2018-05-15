@@ -14,6 +14,7 @@ Micro API Router helps to standardise API microservices. It's middleware for ZEI
 - Correlation ID header (`X-Correlation-ID` provided by [micro-correlation-id](https://github.com/tafarij/micro-correlation-id))
 - Health Check endpoint (`/health`)
 - JSON error handling
+- Request logging
 
 ## Installation
 
@@ -175,6 +176,12 @@ console.log(response) // { statusCode: 500, error: 'Internal Server Error', mess
 Returns the correlation ID of the current request. Must be used inside a handler function.
 
 The current correlation ID is either a generated UUIDv4 or the value passed in via the request's `x-correlation-id` header.
+
+#### `log`
+
+The log object used in Micro API Router. By default, all logs are output to the console in JSON format. For more information on customising the logging or adding new loggers, see: [Bristol](https://github.com/TomFrost/Bristol).
+
+All logs output using this logger will automatically include the Correlation ID assigned to each request. Micro API Router also logs all incoming requests to the console by default.
 
 ## Contributing
 
