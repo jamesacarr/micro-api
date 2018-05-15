@@ -11,7 +11,7 @@
 Micro API Router helps to standardise API microservices. It's middleware for ZEIT's [Micro](https://github.com/zeit/micro) and provides a level of base functionality out of the box such as:
 
 - CORS headers
-- Correlation ID header (`X-Correlation-ID`)
+- Correlation ID header (`X-Correlation-ID` provided by [micro-correlation-id](https://github.com/tafarij/micro-correlation-id))
 - Health Check endpoint (`/health`)
 - JSON error handling
 
@@ -148,6 +148,8 @@ console.log(response) // { name: 'Micro API', description: '' host: 'unknown', d
 
 Creates a [Boom](https://github.com/hapijs/boom) Error instance with the supplied `statusCode`, `message` and `data`. Use with `throw` to return an error.
 
+Returned errors include the request's correlation ID.
+
 ```js
 const { createRouter, createError } = require('micro-api-router')
 const request = require('some-request-lib')
@@ -162,11 +164,17 @@ module.exports = createRouter()
 
 // test.js
 let response = await request('/error')
-console.log(response) // { statusCode: 500, error: 'Internal Server Error', message: 'An internal server error occurred' }
+console.log(response) // { statusCode: 500, error: 'Internal Server Error', message: 'An internal server error occurred', correlationId: '123' }
 
 response = await request('/errorWithData')
-console.log(response) // { statusCode: 500, error: 'Internal Server Error', message: 'An internal server error occurred', data: { some: 'data' } }
+console.log(response) // { statusCode: 500, error: 'Internal Server Error', message: 'An internal server error occurred', correlationId: '123', data: { some: 'data' } }
 ```
+
+#### `getId()`
+
+Returns the correlation ID of the current request. Must be used inside a handler function.
+
+The current correlation ID is either a generated UUIDv4 or the value passed in via the request's `x-correlation-id` header.
 
 ## Contributing
 
@@ -178,7 +186,6 @@ You can run the [Jest](https://github.com/facebook/jest) test by using `yarn tes
 
 ## Inspired By
 * [micro-boom](https://github.com/onbjerg/micro-boom)
-* [micro-correlation-id](https://github.com/tafarij/micro-correlation-id)
 * [micro-cors](https://github.com/possibilities/micro-cors)
 * [micro-health](https://github.com/fmiras/micro-health)
 * [micro-router](https://github.com/pedronauck/micro-router)

@@ -6,6 +6,15 @@
   "author": "James Carr <james@jacarr.me>",
   "repository": "https://github.com/jamesacarr/micro-api-router",
   "bugs": "https://github.com/jamesacarr/micro-api-router/issues",
+  "keywords": [
+    "micro",
+    "correlation",
+    "boom",
+    "router",
+    "api",
+    "health",
+    "microservice"
+  ],
   "license": "MIT",
   "scripts": {
     "metrics": "xo --fix",
@@ -20,7 +29,6 @@
     "coverageDirectory": "coverage",
     "collectCoverageFrom": [
       "**/*.js",
-      "!**/__mocks__/**",
       "!**/node_modules/**",
       "!coverage/**"
     ]
@@ -69,8 +77,8 @@
   "dependencies": {
     "boom": "^7.2.0",
     "deepmerge": "^2.1.0",
+    "micro-correlation-id": "^1.1.0",
     "url": "^0.11.0",
-    "url-pattern": "^1.0.3",
-    "uuid": "^3.2.1"
+    "url-pattern": "^1.0.3"
   }
 }
