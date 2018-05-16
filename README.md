@@ -106,13 +106,15 @@ console.log(response)  // { who: 'World' }
 
 Defaults:
 ```js
+const host = require('os').hostname();
+
 {
-  application: {                                    // Application-specific properties. Returned via `/health`
-    name: process.env.API_NAME || 'Unknown',        // Name of the micro service
-    description: process.env.API_DESCRIPTION || '', // Desceription of the micro service
-    host: process.env.API_HOST || 'unknown',        // Host url/name of the micro service
-    dependencies: [],                               // Dependencies that the micro service relies on
-    version: process.env.API_VERSION || 'N/A',      // Version of the micro service
+  application: {                                       // Application-specific properties. Returned via `/health`
+    name: process.env.API_NAME || 'Unknown',           // Name of the micro service
+    description: process.env.API_DESCRIPTION || '',    // Desceription of the micro service
+    host: process.env.API_HOST || host,                // Host url/name of the micro service
+    dependencies: [],                                  // Dependencies that the micro service relies on
+    version: process.env.API_VERSION || 'development', // Version of the micro service
   },
   cors: {
     allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -128,6 +130,11 @@ Defaults:
     exposeHeaders: [],
     maxAge: 86400,
     origin: '*',
+  },
+  logging: {
+    targets: [
+      { name: 'console', formatter: { name: 'json', options: { dateFormat: 'YYYY-MM-DDTHH:mm:ss.SSS' } } },
+    ],
   },
 }
 ```
@@ -177,11 +184,23 @@ Returns the correlation ID of the current request. Must be used inside a handler
 
 The current correlation ID is either a generated UUIDv4 or the value passed in via the request's `x-correlation-id` header.
 
-#### `log`
+#### `createLogger([options])`
 
-The log object used in Micro API Router. By default, all logs are output to the console in JSON format. For more information on customising the logging or adding new loggers, see: [Bristol](https://github.com/TomFrost/Bristol).
+Creates a new logger. All loggers created via this method will automatically log the Correlation ID of requests.
 
-All logs output using this logger will automatically include the Correlation ID assigned to each request. Micro API Router also logs all incoming requests to the console by default.
+If the `application` property is passed in via `options`, the logger will include the `name`, `host` and `version` properties in all logs.
+
+If the `logging` property is passed in via `options`, the logger will use these properties to create targets and formatters. This property can be ignored to add targets & formatters manually.
+
+For more information on customising the logging or adding new loggers, see: [Bristol](https://github.com/TomFrost/Bristol).
+
+#### `getLogger()`
+
+The current logger used by Micro API Router. By default, created based on `options.logging` passed into `createRouter`.
+
+#### `setLogger(logger)`
+
+Sets the global logger for Micro API Router. Can be any type of logger, as long as it has an `info` method (for logging request information).
 
 ## Contributing
 
