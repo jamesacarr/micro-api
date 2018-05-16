@@ -185,11 +185,7 @@ All logs output using this logger will automatically include the Correlation ID 
 
 ## Contributing
 
-1. [Fork](https://help.github.com/articles/fork-a-repo/) this repository to your own GitHub account and then [clone](https://help.github.com/articles/cloning-a-repository/) it to your local device
-2. Install the dependencies with `yarn install`
-3. Create a [pull request](https://help.github.com/articles/about-pull-requests/) with your changes when ready
-
-You can run the [Jest](https://github.com/facebook/jest) test by using `yarn test` and the [XO](https://github.com/sindresorhus/xo) metrics by using: `yarn metrics`
+Please see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Inspired By
 * [micro-boom](https://github.com/onbjerg/micro-boom)
