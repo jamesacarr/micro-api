@@ -1,6 +1,7 @@
 *.log
 *.spec.js
 .circleci
+.github
 .yarn-integrity
 coverage
 logs
