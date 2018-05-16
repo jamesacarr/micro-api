@@ -7,13 +7,16 @@
   "repository": "https://github.com/jamesacarr/micro-api-router",
   "bugs": "https://github.com/jamesacarr/micro-api-router/issues",
   "keywords": [
-    "micro",
-    "correlation",
-    "boom",
-    "router",
     "api",
-    "health",
-    "microservice"
+    "boom",
+    "correlation-id",
+    "health-check",
+    "json",
+    "micro",
+    "microservice",
+    "router",
+    "routing",
+    "zeit"
   ],
   "license": "MIT",
   "scripts": {
