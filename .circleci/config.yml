@@ -58,6 +58,18 @@ jobs:
           name: Running Metrics
           command: yarn metrics:ci
 
+  deploy-pre:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticating with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publishing package
+          command: npm publish --tag next
+
   deploy:
     <<: *defaults
     steps:
@@ -86,11 +98,20 @@ workflows:
             tags:
               only: /.*/
 
+      - deploy-pre:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /\d+\.\d+\.\d+-\w+(\.\d+)?/
+            branches:
+              ignore: /.*/
+
       - deploy:
           requires:
             - test
           filters:
             tags:
-              only: /\d+\.\d+\.\d+(-\w+\.\d+)?/
+              only: /\d+\.\d+\.\d+/
             branches:
               ignore: /.*/
