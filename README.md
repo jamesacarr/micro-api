@@ -3,7 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/jamesacarr/micro-api-router.svg)](https://circleci.com/gh/jamesacarr/micro-api-router)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Prettier code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Greenkeeper badge](https://badges.greenkeeper.io/jamesacarr/micro-api-router.svg)](https://greenkeeper.io/)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovateapp.com/)
 [![NPM badge](https://img.shields.io/npm/v/micro-api-router.svg)](https://www.npmjs.com/package/micro-api-router)
 
 ## Summary
