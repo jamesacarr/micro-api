@@ -3,7 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/jamesacarr/micro-api-router.svg)](https://circleci.com/gh/jamesacarr/micro-api-router)
 [![XO code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![Prettier code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Greenkeeper badge](https://badges.greenkeeper.io/jamesacarr/micro-api-router.svg)](https://greenkeeper.io/)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovateapp.com/)
 [![NPM badge](https://img.shields.io/npm/v/micro-api-router.svg)](https://www.npmjs.com/package/micro-api-router)
 
 ## Summary
@@ -52,13 +52,13 @@ console.log(response) // 'ok!'
 Creates a new router. Adds a default `/health` endpoint which will return all information under `options.application`.
 Returns an object with the following route methods (each method returns the router object to allow chaining):
 
-* `get(path = String, handler = Function)`
-* `post(path = String, handler = Function)`
-* `put(path = String, handler = Function)`
-* `patch(path = String, handler = Function)`
-* `del(path = String, handler = Function)`
-* `head(path = String, handler = Function)`
-* `options(path = String, handler = Function)`
+- `get(path = String, handler = Function)`
+- `post(path = String, handler = Function)`
+- `put(path = String, handler = Function)`
+- `patch(path = String, handler = Function)`
+- `del(path = String, handler = Function)`
+- `head(path = String, handler = Function)`
+- `options(path = String, handler = Function)`
 
 ##### path
 
@@ -105,6 +105,7 @@ console.log(response)  // { who: 'World' }
 ##### Options
 
 Defaults:
+
 ```js
 const host = require('os').hostname();
 
@@ -140,6 +141,7 @@ const host = require('os').hostname();
 ```
 
 Example:
+
 ```js
 const { createRouter } = require('micro-api-router')
 const request = require('some-request-lib')
@@ -207,10 +209,11 @@ Sets the global logger for Micro API Router. Can be any type of logger, as long 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Inspired By
-* [micro-boom](https://github.com/onbjerg/micro-boom)
-* [micro-cors](https://github.com/possibilities/micro-cors)
-* [micro-health](https://github.com/fmiras/micro-health)
-* [micro-router](https://github.com/pedronauck/micro-router)
+
+- [micro-boom](https://github.com/onbjerg/micro-boom)
+- [micro-cors](https://github.com/possibilities/micro-cors)
+- [micro-health](https://github.com/fmiras/micro-health)
+- [micro-router](https://github.com/pedronauck/micro-router)
 
 ## License
 
