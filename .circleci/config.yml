@@ -7,10 +7,10 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo
   docker:
-    - image: circleci/node:latest
+    - image: circleci/node:10.2
 
 jobs:
-  build:
+  test:
     <<: *defaults
     steps:
       - checkout
@@ -20,33 +20,12 @@ jobs:
             # Fallback to using the latest cache if no exact match is found
             - dependencies-
       - run:
-          name: Preparing greenkeeper-lockfile
-          command: |
-            echo 'export PATH=$(yarn global bin):$PATH' >> $BASH_ENV
-            source $BASH_ENV
-            yarn global add greenkeeper-lockfile@1
-      - run:
           name: Installing Dependencies
           command: yarn install
-      - run:
-          name: Updating greenkeeper lockfile
-          command: greenkeeper-lockfile-update
       - save_cache:
           paths:
             - node_modules
           key: dependencies-{{ checksum "yarn.lock" }}
-      - run:
-          name: Uploading greenkeeper lockfile
-          command: greenkeeper-lockfile-upload
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-
-  test:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
       - run:
           name: Running Unit Tests
           command: yarn test:ci
@@ -57,6 +36,9 @@ jobs:
       - run:
           name: Running Metrics
           command: yarn metrics:ci
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
 
   deploy-pre:
     <<: *defaults
@@ -86,14 +68,7 @@ workflows:
   version: 2
   test-deploy:
     jobs:
-      - build:
-          filters:
-            tags:
-              only: /.*/
-
       - test:
-          requires:
-            - build
           filters:
             tags:
               only: /.*/
