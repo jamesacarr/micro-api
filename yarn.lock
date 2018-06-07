@@ -1224,7 +1224,7 @@ eslint-visitor-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#3f3180fb2e291017716acb4c9d6d5b5c34a6a81d"
 
-eslint@^4.18.2, eslint@^4.19.1:
+eslint@4.19.1, eslint@^4.19.1:
   version "4.19.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.19.1.tgz#32d1d653e1d90408854bfb296f076ec7e186a300"
   dependencies:
@@ -1879,7 +1879,7 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
-husky@^0.14.3:
+husky@0.14.3:
   version "0.14.3"
   resolved "https://registry.yarnpkg.com/husky/-/husky-0.14.3.tgz#c69ed74e2d2779769a17ba8399b54ce0b63c12c3"
   dependencies:
@@ -2558,7 +2558,7 @@ jest-jasmine2@^23.0.1:
     jest-util "^23.0.1"
     pretty-format "^23.0.1"
 
-jest-junit@^4.0.0:
+jest-junit@4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-4.0.0.tgz#6af04d43940d7e81dc7d37ec1b80c97551d91e80"
   dependencies:
@@ -2765,7 +2765,7 @@ jest-worker@^23.0.1:
   dependencies:
     merge-stream "^1.0.1"
 
-jest@^23.0.1:
+jest@23.0.1:
   version "23.0.1"
   resolved "https://registry.yarnpkg.com/jest/-/jest-23.0.1.tgz#0d083290ee4112cecfb780df6ff81332ed373201"
   dependencies:
@@ -2914,7 +2914,7 @@ line-column-path@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/line-column-path/-/line-column-path-1.0.0.tgz#383b83fca8488faa7a59940ebf28b82058c16c55"
 
-lint-staged@^7.0.0:
+lint-staged@7.1.0:
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-7.1.0.tgz#1514a5b71b8d9492ca0c3d2a44769cbcbc8bcc79"
   dependencies:
@@ -3191,7 +3191,7 @@ micro-correlation-id@^1.1.0:
     cls-hooked "^4.2.2"
     uuid "^3.2.1"
 
-micro@^9.1.4:
+micro@9.3.0:
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/micro/-/micro-9.3.0.tgz#00b5b3cd45411bf6de171fd339596ce549a078f7"
   dependencies:
@@ -4916,7 +4916,7 @@ xo-init@^0.7.0:
     the-argv "^1.0.0"
     write-pkg "^3.1.0"
 
-xo@^0.21.0:
+xo@0.21.0:
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/xo/-/xo-0.21.0.tgz#c5b8d871b06e307f910062d3fb7d8a95aa94296f"
   dependencies:
